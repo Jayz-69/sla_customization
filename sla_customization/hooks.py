@@ -143,23 +143,15 @@ app_license = "mit"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"sla_customization.tasks.all"
-# 	],
-# 	"daily": [
-# 		"sla_customization.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"sla_customization.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"sla_customization.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"sla_customization.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    "cron": {
+        "* * * * *": [
+            "sla_customization.services.sla_engine.run"
+        ]
+    }
+}
+
+
 
 # Testing
 # -------
