@@ -9,29 +9,50 @@ from frappe.utils import now_datetime, get_datetime, add_days
 def run():
     """
     Scheduler entry point.
-    Fetches all open tickets and evaluates SLA milestones.
     """
-    tickets = get_open_category_tickets()
 
-    for ticket in tickets:
+    # ------------------------------------------------------------------
+    # 1. STATE TRACKING (timestamps must see all relevant statuses)
+    # ------------------------------------------------------------------
+    state_tickets = get_tickets_by_status(
+        ["Open", "In-Progress", "Resolved", "Closed"]
+    )
+
+    for ticket in state_tickets:
+        sla_update = get_or_create_sla_update(ticket.name)
+        record_first_response_time(ticket, sla_update)
+        record_resolution_time(ticket, sla_update)
+
+    # ------------------------------------------------------------------
+    # 2. FIRST RESPONSE SLA → ONLY Open tickets
+    # ------------------------------------------------------------------
+    open_tickets = get_tickets_by_status(["Open"])
+    for ticket in open_tickets:
         sla_update = get_or_create_sla_update(ticket.name)
         handle_first_response(ticket, sla_update)
+
+    # ------------------------------------------------------------------
+    # 3. RESOLUTION SLA → Open + In-Progress tickets
+    # ------------------------------------------------------------------
+    resolution_tickets = get_tickets_by_status(["Open", "In-Progress"])
+    for ticket in resolution_tickets:
+        sla_update = get_or_create_sla_update(ticket.name)
         handle_resolution(ticket, sla_update)
 
     close_resolved_tickets()
 
 
 # =========================================================
-# FETCH ONLY OPEN CATEGORY TICKETS
+# FETCH TICKETS BY STATUS
 # =========================================================
 
-def get_open_category_tickets():
+def get_tickets_by_status(status_list):
     """
-    Returns HD Ticket docs where status_category = Open
+    Fetch HD Ticket docs by status list.
     """
     names = frappe.get_all(
         "HD Ticket",
-        filters={"status_category": "Open"},
+        filters={"status": ["in", status_list]},
         pluck="name"
     )
     return [frappe.get_doc("HD Ticket", name) for name in names]
@@ -44,7 +65,6 @@ def get_open_category_tickets():
 def get_or_create_sla_update(ticket_name):
     """
     Fetch existing Sla Update doc or create one.
-    One row per ticket.
     """
     existing = frappe.get_all(
         "Sla Update",
@@ -62,6 +82,36 @@ def get_or_create_sla_update(ticket_name):
     doc.insert(ignore_permissions=True)
     frappe.db.commit()
     return doc
+
+
+# =========================================================
+# STATE-BASED TIMESTAMP RECORDING
+# =========================================================
+
+def record_first_response_time(ticket, sla_update):
+    """
+    Record First Responded On when ticket enters In-Progress.
+    """
+    if (
+        ticket.status == "In-Progress"
+        and not sla_update.first_responded_on
+    ):
+        sla_update.first_responded_on = now_datetime()
+        sla_update.save(ignore_permissions=True)
+        frappe.db.commit()
+
+
+def record_resolution_time(ticket, sla_update):
+    """
+    Copy Resolution Date from HD Ticket once it appears.
+    """
+    if (
+        ticket.resolution_date
+        and not sla_update.resolution_date
+    ):
+        sla_update.resolution_date = get_datetime(ticket.resolution_date)
+        sla_update.save(ignore_permissions=True)
+        frappe.db.commit()
 
 
 # =========================================================
@@ -112,15 +162,13 @@ def get_percentage(start, due):
 
 
 # =========================================================
-# FIRST RESPONSE SLA HANDLER (FIXED)
+# FIRST RESPONSE SLA HANDLER
 # =========================================================
 
 def handle_first_response(ticket, sla_update):
     """
-    Handles 50%, 75%, 100% milestones cumulatively
-    for First Response SLA.
+    Handles 50%, 75%, 100% milestones for First Response SLA.
     """
-    # Stop if already responded
     if ticket.first_response_time:
         return
 
@@ -142,15 +190,13 @@ def handle_first_response(ticket, sla_update):
 
 
 # =========================================================
-# RESOLUTION SLA HANDLER (FIXED)
+# RESOLUTION SLA HANDLER
 # =========================================================
 
 def handle_resolution(ticket, sla_update):
     """
-    Handles 50%, 75%, 100% milestones cumulatively
-    for Resolution SLA.
+    Handles 50%, 75%, 100% milestones for Resolution SLA.
     """
-    # Stop if already resolved
     if ticket.resolution_time:
         return
 
@@ -192,12 +238,13 @@ def send_email(ticket, sla_type, milestone):
     if not assignee_email:
         return
 
-    # Capitalize SLA type for subject clarity
-    sla_label = "First Response SLA" if sla_type == "first response" else "Resolution SLA"
-
-    subject = (
-        f"{sla_label} Alert ({milestone}%) – Ticket {ticket.name}"
+    sla_label = (
+        "First Response SLA"
+        if sla_type == "first response"
+        else "Resolution SLA"
     )
+
+    subject = f"{sla_label} Alert ({milestone}%) – Ticket {ticket.name}"
 
     if milestone == 100:
         message = (
@@ -216,4 +263,3 @@ def send_email(ticket, sla_type, milestone):
         message=message,
         delayed=False
     )
-

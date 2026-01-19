@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-07 17:56:55.255398",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "first_response_section",
+  "ticket_id",
+  "fr_50_notified",
+  "fr_75_notified",
+  "fr_100_notified",
+  "first_responded_on",
+  "resolution_section",
+  "res_75_notified",
+  "res_50_notified",
+  "res_100_notified",
+  "resolution_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "first_response_section",
+   "fieldtype": "Section Break",
+   "label": "First Response"
+  },
+  {
+   "fieldname": "ticket_id",
+   "fieldtype": "Link",
+   "label": "Ticket Id",
+   "options": "HD Ticket"
+  },
+  {
+   "default": "0",
+   "fieldname": "fr_50_notified",
+   "fieldtype": "Check",
+   "label": "FR 50 Notified"
+  },
+  {
+   "default": "0",
+   "fieldname": "fr_75_notified",
+   "fieldtype": "Check",
+   "label": "FR 75 Notified"
+  },
+  {
+   "default": "0",
+   "fieldname": "fr_100_notified",
+   "fieldtype": "Check",
+   "label": "FR 100 Notified"
+  },
+  {
+   "fieldname": "first_responded_on",
+   "fieldtype": "Datetime",
+   "label": "First Responded On"
+  },
+  {
+   "fieldname": "resolution_section",
+   "fieldtype": "Section Break",
+   "label": "Resolution"
+  },
+  {
+   "default": "0",
+   "fieldname": "res_75_notified",
+   "fieldtype": "Check",
+   "label": "RES 75 Notified"
+  },
+  {
+   "default": "0",
+   "fieldname": "res_50_notified",
+   "fieldtype": "Check",
+   "label": "RES 50 Notified"
+  },
+  {
+   "default": "0",
+   "fieldname": "res_100_notified",
+   "fieldtype": "Check",
+   "label": "RES 100 Notified"
+  },
+  {
+   "fieldname": "resolution_date",
+   "fieldtype": "Datetime",
+   "label": "Resolution Date"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-19 15:08:18.484622",
+ "modified_by": "Administrator",
+ "module": "Sla Customization",
+ "name": "Sla Update",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
