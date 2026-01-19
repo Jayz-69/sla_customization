@@ -1,5 +1,5 @@
 import frappe
-from frappe.utils import now_datetime, get_datetime
+from frappe.utils import now_datetime, get_datetime, add_days
 
 
 # =========================================================
@@ -17,6 +17,8 @@ def run():
         sla_update = get_or_create_sla_update(ticket.name)
         handle_first_response(ticket, sla_update)
         handle_resolution(ticket, sla_update)
+
+    close_resolved_tickets()
 
 
 # =========================================================
@@ -167,6 +169,15 @@ def handle_resolution(ticket, sla_update):
 
     sla_update.save(ignore_permissions=True)
     frappe.db.commit()
+
+def close_resolved_tickets():
+    resolved = frappe.get_all("HD Ticket",filters={"status":"Resolved"},pluck = "name")
+    for name in resolved:
+        doc = frappe.get_doc("HD Ticket",name)
+        if add_days(doc.resolution_date,2) < now_datetime():
+            doc.status = "Closed"
+            doc.save()
+    frappe.db.commit() 
 
 
 # =========================================================
