@@ -15,7 +15,7 @@ def run():
     # 1. STATE TRACKING (timestamps must see all relevant statuses)
     # ------------------------------------------------------------------
     state_tickets = get_tickets_by_status(
-        ["Open", "In-Progress", "Resolved", "Closed"]
+        ["New", "In-Progress", "Resolved", "Closed"]
     )
 
     for ticket in state_tickets:
@@ -24,17 +24,17 @@ def run():
         record_resolution_time(ticket, sla_update)
 
     # ------------------------------------------------------------------
-    # 2. FIRST RESPONSE SLA → ONLY Open tickets
+    # 2. FIRST RESPONSE SLA → ONLY New tickets
     # ------------------------------------------------------------------
-    open_tickets = get_tickets_by_status(["Open"])
+    open_tickets = get_tickets_by_status(["New"])
     for ticket in open_tickets:
         sla_update = get_or_create_sla_update(ticket.name)
         handle_first_response(ticket, sla_update)
 
     # ------------------------------------------------------------------
-    # 3. RESOLUTION SLA → Open + In-Progress tickets
+    # 3. RESOLUTION SLA → New + In-Progress tickets
     # ------------------------------------------------------------------
-    resolution_tickets = get_tickets_by_status(["Open", "In-Progress"])
+    resolution_tickets = get_tickets_by_status(["New", "In-Progress"])
     for ticket in resolution_tickets:
         sla_update = get_or_create_sla_update(ticket.name)
         handle_resolution(ticket, sla_update)
@@ -120,14 +120,14 @@ def record_resolution_time(ticket, sla_update):
 
 def get_ticket_assignee_email(ticket_name):
     """
-    Returns email address of the first open ToDo assignee.
+    Returns email address of the first new ToDo assignee.
     """
     assignees = frappe.get_all(
         "ToDo",
         filters={
             "reference_type": "HD Ticket",
             "reference_name": ticket_name,
-            "status": "Open"
+            "status": "New"
         },
         pluck="allocated_to",
         limit=1
@@ -216,14 +216,6 @@ def handle_resolution(ticket, sla_update):
     sla_update.save(ignore_permissions=True)
     frappe.db.commit()
 
-def close_resolved_tickets():
-    resolved = frappe.get_all("HD Ticket",filters={"status":"Resolved"},pluck = "name")
-    for name in resolved:
-        doc = frappe.get_doc("HD Ticket",name)
-        if add_days(doc.resolution_date,2) < now_datetime():
-            doc.status = "Closed"
-            doc.save()
-    frappe.db.commit() 
 
 
 # =========================================================
