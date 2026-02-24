@@ -39,8 +39,6 @@ def run():
         sla_update = get_or_create_sla_update(ticket.name)
         handle_resolution(ticket, sla_update)
 
-    close_resolved_tickets()
-
 
 # =========================================================
 # FETCH TICKETS BY STATUS
