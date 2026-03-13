@@ -10,7 +10,7 @@ def run():
     """
     Scheduler entry point.
     """
-
+    
     # ------------------------------------------------------------------
     # 1. STATE TRACKING (timestamps must see all relevant statuses)
     # ------------------------------------------------------------------
@@ -48,12 +48,27 @@ def get_tickets_by_status(status_list):
     """
     Fetch HD Ticket docs by status list.
     """
-    names = frappe.get_all(
-        "HD Ticket",
-        filters={"status": ["in", status_list]},
-        pluck="name"
-    )
-    return [frappe.get_doc("HD Ticket", name) for name in names]
+    meta = frappe.get_meta("HD Ticket")
+    priority_field = meta.get_field("custom_priorityy")
+    options = [opt.strip() for opt in (priority_field.options or "").split("\n") if opt.strip()]
+    placeholders = ", ".join([f"%(p{i})s" for i in range(len(options))])
+    order_by_priority = f"FIELD(custom_priorityy, {placeholders})"
+    query_values = {"status_list": status_list}
+    for i, opt in enumerate(options):
+        query_values[f"p{i}"] = opt
+    result = frappe.db.sql(f"""
+    SELECT 
+        name
+    FROM 
+        `tabHD Ticket`
+    WHERE 
+        status IN %(status_list)s
+    ORDER BY 
+        {order_by_priority}, 
+        creation DESC
+    """, query_values, as_dict=True)
+    names = result
+    return [frappe.get_doc("HD Ticket", name["name"]) for name in names]
 
 
 # =========================================================
@@ -125,12 +140,12 @@ def get_ticket_assignee_email(ticket_name):
         filters={
             "reference_type": "HD Ticket",
             "reference_name": ticket_name,
-            "status": "New"
+            "status": "Open"
         },
         pluck="allocated_to",
         limit=1
     )
-
+    
     if not assignees:
         return None
 
@@ -169,9 +184,9 @@ def handle_first_response(ticket, sla_update):
     """
     if ticket.first_response_time:
         return
-
+    
     pct = get_percentage(ticket.creation, ticket.response_by)
-
+    
     for milestone in (50, 75, 100):
         if pct < milestone:
             continue
@@ -197,7 +212,7 @@ def handle_resolution(ticket, sla_update):
     """
     if ticket.resolution_time:
         return
-
+    
     pct = get_percentage(ticket.creation, ticket.resolution_by)
 
     for milestone in (50, 75, 100):
@@ -227,7 +242,7 @@ def send_email(ticket, sla_type, milestone):
     assignee_email = get_ticket_assignee_email(ticket.name)
     if not assignee_email:
         return
-
+    
     sla_label = (
         "First Response SLA"
         if sla_type == "first response"

@@ -146,7 +146,8 @@ app_license = "mit"
 scheduler_events = {
     "cron": {
         "* * * * *": [
-            "sla_customization.services.sla_engine.run"
+            "sla_customization.services.sla_engine.run",
+            "sla_customization.services.jobs.pull"
         ]
     }
 }
@@ -241,4 +242,12 @@ scheduler_events = {
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
+
+fixtures = [
+    "Custom Field",
+    "Property Setter",
+    "Client Script",
+    "Server Script",
+    "DocType"
+]
 
