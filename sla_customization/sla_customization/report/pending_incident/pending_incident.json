@@ -1,0 +1,63 @@
+{
+ "_liked_by": "[\"Administrator\"]",
+ "add_total_row": 0,
+ "add_translate_data": 0,
+ "columns": [],
+ "creation": "2026-04-03 15:14:56.273771",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 0,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 0,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": null,
+ "modified": "2026-04-07 15:21:47.371853",
+ "modified_by": "Administrator",
+ "module": "Sla Customization",
+ "name": "Pending Incident",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT\nIFNULL(email_account, 'NA') AS \"Daily Tickets Report - Technology:Data:200\",\n \n-- \ud83d\udd35 Open Tickets\nSUM(CASE\n  WHEN status IN ('New', 'In-Progress') THEN 1 ELSE 0\nEND) AS \"Daily Tickets Report - Open Tickets:Int:120\",\n \n-- \ud83d\udfe0 Pending Age Wise\nSUM(CASE\n  WHEN status = 'Pending' AND DATEDIFF(CURDATE(), creation) >= 1 THEN 1 ELSE 0\nEND) AS \"Pending Tickets Age Wise - >= 1 Day:Int:120\",\n \nSUM(CASE\n  WHEN status = 'Pending' AND DATEDIFF(CURDATE(), creation) BETWEEN 1 AND 3 THEN 1 ELSE 0\nEND) AS \"Pending Tickets Age Wise - 1 to 3 Days:Int:120\",\n \nSUM(CASE\n  WHEN status = 'Pending' AND DATEDIFF(CURDATE(), creation) BETWEEN 4 AND 6 THEN 1 ELSE 0\nEND) AS \"Pending Tickets Age Wise - 4 to 6 Days:Int:120\",\n \nSUM(CASE\n  WHEN status = 'Pending' AND DATEDIFF(CURDATE(), creation) > 6 THEN 1 ELSE 0\nEND) AS \"Pending Tickets Age Wise - 6 Days Above:Int:120\",\n \nSUM(CASE\n  WHEN status = 'Pending' THEN 1 ELSE 0\nEND) AS \"Total Pending:Int:120\"\n \nFROM `tabHD Ticket`\n \nWHERE\ndocstatus < 2\nAND status NOT IN ('Closed', 'Cancelled')\n \nAND (%(from_date)s IS NULL OR DATE(creation) >= %(from_date)s)\nAND (%(to_date)s IS NULL OR DATE(creation) <= %(to_date)s)\n \nGROUP BY IFNULL(email_account, 'NA')\n \nUNION ALL\n \nSELECT\n'Total Tickets',\n \nSUM(CASE\n  WHEN status IN ('New', 'In-Progress') THEN 1 ELSE 0\nEND),\n \nSUM(CASE\n  WHEN status = 'Pending' AND DATEDIFF(CURDATE(), creation) >= 1 THEN 1 ELSE 0\nEND),\n \nSUM(CASE\n  WHEN status = 'Pending' AND DATEDIFF(CURDATE(), creation) BETWEEN 1 AND 3 THEN 1 ELSE 0\nEND),\n \nSUM(CASE\n  WHEN status = 'Pending' AND DATEDIFF(CURDATE(), creation) BETWEEN 4 AND 6 THEN 1 ELSE 0\nEND),\n \nSUM(CASE\n  WHEN status = 'Pending' AND DATEDIFF(CURDATE(), creation) > 6 THEN 1 ELSE 0\nEND),\n \nSUM(CASE\n  WHEN status = 'Pending' THEN 1 ELSE 0\nEND)\n \nFROM `tabHD Ticket`\n \nWHERE\ndocstatus < 2\nAND status NOT IN ('Closed', 'Cancelled')\n \nAND (%(from_date)s IS NULL OR DATE(creation) >= %(from_date)s)\nAND (%(to_date)s IS NULL OR DATE(creation) <= %(to_date)s)",
+ "ref_doctype": "HD Ticket",
+ "report_name": "Pending Incident",
+ "report_script": "def execute(filters=None):\n \n    if not filters:\n        filters = {}\n \n    query = \"\"\"\n    SELECT\n        email_account AS \"Technology:Link/Email Account:200\",\n        COUNT(*) AS \"Open Tickets:Int:120\",\n \n        SUM(CASE \n            WHEN DATEDIFF(CURDATE(), creation) >= 1 THEN 1 ELSE 0 \n        END) AS \">= 1 Day:Int:120\",\n \n        SUM(CASE \n            WHEN DATEDIFF(CURDATE(), creation) BETWEEN 1 AND 3 THEN 1 ELSE 0 \n        END) AS \"1 to 3 Days:Int:120\",\n \n        SUM(CASE \n            WHEN DATEDIFF(CURDATE(), creation) BETWEEN 4 AND 6 THEN 1 ELSE 0 \n        END) AS \"3 to 6 Days:Int:120\",\n \n        SUM(CASE \n            WHEN DATEDIFF(CURDATE(), creation) > 6 THEN 1 ELSE 0 \n        END) AS \"6 Days above:Int:120\",\n \n        COUNT(*) AS \"Total Pending:Int:120\"\n \n    FROM `tabHD Ticket`\n \n    WHERE\n        docstatus < 2\n        AND status NOT IN ('Closed', 'Cancelled')\n \n        AND (%(from_date)s IS NULL OR DATE(creation) >= %(from_date)s)\n        AND (%(to_date)s IS NULL OR DATE(creation) <= %(to_date)s)\n \n    GROUP BY email_account\n    ORDER BY email_account\n    \"\"\"\n \n    data = frappe.db.sql(query, filters, as_dict=1)\n \n    return [], data\n ",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Agent"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "All"
+  },
+  {
+   "role": "Agent Manager"
+  },
+  {
+   "role": "ERPNext"
+  },
+  {
+   "role": "HD Ticket"
+  }
+ ],
+ "timeout": 0
+}

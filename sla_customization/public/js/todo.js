@@ -1,6 +1,11 @@
 frappe.ui.form.on('HD Ticket', {
     onload: function(frm) {
+<<<<<<< Updated upstream
 	console.log("onload2 called")
+=======
+        console.log("Inside onload");
+
+>>>>>>> Stashed changes
         frm.set_query("custom_assigned_to", function() {
             return {
                 query: "sla_customization.api.user_query.active_user_query",
@@ -23,6 +28,7 @@ frappe.ui.form.on('HD Ticket', {
             };
         });
     }
+<<<<<<< Updated upstream
 //    refresh: function(frm) {
 //       console.log("refresh called")
 //  	 // Find the input element of your custom field
@@ -38,4 +44,6 @@ frappe.ui.form.on('HD Ticket', {
 //             });
 //         });
 //     }
+=======
+>>>>>>> Stashed changes
 });
