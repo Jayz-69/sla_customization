@@ -247,7 +247,7 @@ fixtures = [
     "Custom Field",
     "Property Setter",
     "Client Script",
-    "Server Script",
-    "DocType"
+    "Server Script"
+    # "DocType"
 ]
 
