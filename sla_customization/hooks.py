@@ -243,11 +243,14 @@ scheduler_events = {
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
-fixtures = [
-    "Custom Field",
-    "Property Setter",
-    "Client Script",
-    "Server Script"
-    # "DocType"
-]
+# fixtures = [
+#     "Custom Field",
+#     "Property Setter",
+#     "Client Script",
+#     "Server Script"
+#     # "DocType"
+# ]
+after_install = "sla_customization.install.after_install"
+before_uninstall = "sla_customization.uninstall.before_uninstall"
+
 
