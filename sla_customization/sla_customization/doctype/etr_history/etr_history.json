@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-04-27 11:58:50.211845",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "etr",
+  "etr_justification",
+  "reason_for_change",
+  "changed_date",
+  "changed_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "etr",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "ETR"
+  },
+  {
+   "fieldname": "etr_justification",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "ETR Justification"
+  },
+  {
+   "fieldname": "reason_for_change",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Reason For Change"
+  },
+  {
+   "fieldname": "changed_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Changed Date"
+  },
+  {
+   "fieldname": "changed_by",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Changed By",
+   "options": "User"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-27 11:58:50.211845",
+ "modified_by": "sneha.singh@cloverinfotech.com",
+ "module": "Sla Customization",
+ "name": "ETR History",
+ "owner": "sneha.singh@cloverinfotech.com",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

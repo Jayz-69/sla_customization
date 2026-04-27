@@ -1,0 +1,38 @@
+{
+ "app": "frappe",
+ "charts": [],
+ "content": "[{\"id\":\"AxjMGrclK5\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Helpdesk Charts\",\"col\":12}}]",
+ "creation": "2026-04-27 15:12:21.070001",
+ "custom_blocks": [
+  {
+   "custom_block_name": "Helpdesk Charts",
+   "label": "Helpdesk Charts"
+  }
+ ],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Analyst",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2026-04-27 15:14:02.333676",
+ "modified_by": "Administrator",
+ "module": "Sla Customization",
+ "name": "Analyst",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [],
+ "title": "Analyst",
+ "type": "Workspace"
+}
