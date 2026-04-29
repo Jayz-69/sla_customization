@@ -143,6 +143,9 @@ doctype_js = {
 # 		"on_trash": "method"
 # 	}
 # }
+override_doctype_class = {
+    "Email Account": "sla_customization.overrides.email_account.CustomEmailAccount",
+}
 
 # Scheduled Tasks
 # ---------------
