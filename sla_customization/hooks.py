@@ -46,6 +46,7 @@ app_license = "mit"
 doctype_js = {"HD Ticket" : "public/js/todo.js"}
 doctype_js = { "HD Ticket": "public/js/hd_ticket_status.js"}
 doctype_list_js = { "HD Ticket": "public/js/hd_ticket_listt.js"}
+doctype_js = { "HD Ticket": "public/js/field_update.js"}
 
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -142,6 +143,13 @@ doctype_list_js = { "HD Ticket": "public/js/hd_ticket_listt.js"}
 # 		"on_trash": "method"
 # 	}
 # }
+
+doc_events = {
+    "User": {
+        "before_save": "sla_customization.overrides.assign_after_user_disabled.block_disable_with_open_tickets"
+    }
+}
+
 override_doctype_class = {
     "Email Account": "sla_customization.overrides.email_account.CustomEmailAccount",
 }
