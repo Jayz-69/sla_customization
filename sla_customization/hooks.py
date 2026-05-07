@@ -163,11 +163,11 @@ scheduler_events = {
             "sla_customization.services.sla_engine.run",
             "sla_customization.services.jobs.pull"
         ]
-    }
+    },
+    "daily": [
+        "sla_customization.api.email_expiry_warning.send_password_expiry_reminders"
+    ]
 }
-
-
-
 # Testing
 # -------
 
@@ -267,4 +267,20 @@ scheduler_events = {
 after_install = "sla_customization.install.after_install"
 before_uninstall = "sla_customization.uninstall.before_uninstall"
 
+doc_events = {
+    "User": {
+        "before_save": "sla_customization.api.assign_user_make_disable.block_disable_with_open_tickets"
+    },
+     "HD Ticket": {
+        "before_insert": "sla_customization.api.incident_validation.validate_incident_conversion",
+        "before_save": "sla_customization.api.status_update.update_ticket_status_logic",
+        "after_save": "sla_customization.api.auto_cancel_sr.handle_incident_conversion_logs",
+    }
 
+    
+}
+
+
+
+
+ 
