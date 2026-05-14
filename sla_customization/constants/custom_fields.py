@@ -8,7 +8,7 @@ CUSTOM_FIELDS = {
             "fieldtype": "Link",
             "options": "Ticket",
             "insert_after": "subject_section",
-            "default": "Service"
+            "default": "Service Request"
         },
         
         {
