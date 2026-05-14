@@ -8,7 +8,7 @@ CUSTOM_FIELDS = {
             "fieldtype": "Link",
             "options": "Ticket",
             "insert_after": "subject_section",
-            "default": "Incident"
+            "default": "Service"
         },
         
         {
@@ -118,7 +118,7 @@ CUSTOM_FIELDS = {
             "fieldname": "custom_pending_reason",
             "label": "Pending Reason",
             "fieldtype": "Select",
-            "options": "Pending from Client\nPending from Partner\nOthers",
+            "options": "\nPending from Client\nPending from Partner\nPending from OEM\nUnder Observation\nClient Not Available\nScheduled Ticket\nOEM Not Availabel\nPartner Not Available\nOthers",
             "insert_after": "custom_column_break_gkel5"
         },
         {
@@ -357,6 +357,13 @@ CUSTOM_FIELDS = {
             "fieldtype": "Link",
             "options": "HD Team",
             "insert_after": "frappe_mail_site"
+        },
+	{
+            "fieldname": "custom_workgroup_owner",
+            "label": "Workgroup Owner",
+            "fieldtype": "Link",
+            "options": "User",
+            "insert_after": "custom_parent_email"
         }
     ]
 
