@@ -131,25 +131,25 @@ def record_resolution_time(ticket, sla_update):
 # ASSIGNEE EMAIL FETCH
 # =========================================================
 
-def get_ticket_assignee_email(ticket_name):
-    """
-    Returns email address of the first new ToDo assignee.
-    """
-    assignees = frappe.get_all(
-        "ToDo",
-        filters={
-            "reference_type": "HD Ticket",
-            "reference_name": ticket_name,
-            "status": "Open"
-        },
-        pluck="allocated_to",
-        limit=1
-    )
+# def get_ticket_assignee_email(ticket_name):
+#     """
+#     Returns email address of the first new ToDo assignee.
+#     """
+#     assignees = frappe.get_all(
+#         "ToDo",
+#         filters={
+#             "reference_type": "HD Ticket",
+#             "reference_name": ticket_name,
+#             "status": "Open"
+#         },
+#         pluck="allocated_to",
+#         limit=1
+#     )
     
-    if not assignees:
-        return None
+#     if not assignees:
+#         return None
 
-    return frappe.get_value("User", assignees[0], "email")
+#     return frappe.get_value("User", assignees[0], "email")
 
 
 # =========================================================
@@ -235,12 +235,90 @@ def handle_resolution(ticket, sla_update):
 # EMAIL SENDER
 # =========================================================
 
+# def send_email(ticket, sla_type, milestone):
+#     """
+#     Sends SLA notification email to assignee.
+#     """
+#     assignee_email = get_ticket_assignee_email(ticket.name)
+#     if not assignee_email:
+#         return
+    
+#     sla_label = (
+#         "First Response SLA"
+#         if sla_type == "first response"
+#         else "Resolution SLA"
+#     )
+
+#     subject = f"{sla_label} Alert ({milestone}%) – Ticket {ticket.name}"
+
+#     if milestone == 100:
+#         message = (
+#             f"All {sla_type} time for ticket {ticket.name} has passed.<br><br>"
+#             "Immediate action is required."
+#         )
+#     else:
+#         message = (
+#             f"{milestone}% of {sla_type} time has passed for "
+#             f"ticket {ticket.name}."
+#         )
+
+#     frappe.sendmail(
+#         recipients=[assignee_email],
+#         subject=subject,
+#         message=message,
+#         delayed=False
+#     )
+# =========================================================
+# WORKGROUP EMAIL FETCH
+# =========================================================
+
+def get_workgroup_emails(ticket):
+    """
+    Extracts the email address from the 'email_id' field of the 
+    linked Email Account record selected in the ticket.
+    """
+    email_account_name = getattr(ticket, "email_account", None)
+    if not email_account_name:
+        return []
+
+    # Fetches the target email from the 'email_id' field of the Email Account Doctype
+    email_id = frappe.get_value("Email Account", email_account_name, "email_id")
+    
+    return [email_id] if email_id else []
+
+
+# =========================================================
+# EMAIL SENDER
+# =========================================================
+# =========================================================
+# ASSIGNEE EMAIL FETCH FROM HD TICKET
+# =========================================================
+
+def get_ticket_assignee_email(ticket):
+    """
+    Returns assigned user email from custom_assigned_to field.
+    """
+
+    if not ticket.custom_assigned_to:
+        return []
+
+    return [frappe.db.get_value(
+        "User",
+        ticket.custom_assigned_to,
+        "email"
+    )]
+
+
 def send_email(ticket, sla_type, milestone):
     """
-    Sends SLA notification email to assignee.
+    Sends SLA notification email to the target workgroup email address.
     """
-    assignee_email = get_ticket_assignee_email(ticket.name)
-    if not assignee_email:
+    if sla_type == "first response":
+        recipients = get_workgroup_emails(ticket)
+    else:
+        recipients = get_ticket_assignee_email(ticket)
+
+    if not recipients:
         return
     
     sla_label = (
@@ -250,20 +328,23 @@ def send_email(ticket, sla_type, milestone):
     )
 
     subject = f"{sla_label} Alert ({milestone}%) – Ticket {ticket.name}"
+    workgroup_account = getattr(ticket, "email_account", "N/A")
 
     if milestone == 100:
         message = (
             f"All {sla_type} time for ticket {ticket.name} has passed.<br><br>"
+            f"Workgroup Account: {workgroup_account}<br>"
             "Immediate action is required."
         )
     else:
         message = (
             f"{milestone}% of {sla_type} time has passed for "
-            f"ticket {ticket.name}."
+            f"ticket {ticket.name}.<br><br>"
+            f"Workgroup Account: {workgroup_account}"
         )
 
     frappe.sendmail(
-        recipients=[assignee_email],
+        recipients=recipients,
         subject=subject,
         message=message,
         delayed=False
