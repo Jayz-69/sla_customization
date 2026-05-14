@@ -360,10 +360,10 @@ CUSTOM_FIELDS = {
         },
 
          {
-            "fieldname": "custom_workgroup",
-            "label": "Workgroup",
+            "fieldname": "custom_workgroup_owner",
+            "label": "Workgroup Owner",
             "fieldtype": "Link",
-            "options": "HD Team",
+            "options": "User",
             "insert_after": "frappe_mail_site"
         }
     ]
