@@ -111,7 +111,7 @@ CUSTOM_FIELDS = {
             "fieldname": "custom_resolution_code",
             "label": "Resolution Code",
             "fieldtype": "Select",
-            "options": "SELECT\nResolved",
+            "options": "\nSELECT\nResolved",
             "insert_after": "custom_pending_reason"
         },
         {
@@ -125,21 +125,21 @@ CUSTOM_FIELDS = {
             "fieldname": "custom_closure_category",
             "label": "Closure Category",
             "fieldtype": "Select",
-            "options": "UAM\nProd Issue\nAudit",
+            "options": "\nUAM\nProd Issue\nReport Extraction\nAudit Related\nUAT Issue",
             "insert_after": "custom_closure_code"
         },
         {
             "fieldname": "custom_closure_code",
             "label": "Closure Code",
             "fieldtype": "Select",
-            "options": "Closed\nResolved\nOthers",
+            "options": "\nSELECT\nClosed\nResolved\nOther\nIssue Resolved\nSuccessful",
             "insert_after": "custom_section_break_nrigx"
         },
         {
             "fieldname": "custom_service_window",
             "label": "Service Window",
             "fieldtype": "Select",
-            "options": "24*7\n9*6\n16*6",
+            "options": "\n7 AM x 10 PM\n9*8 - 9:00 AM  x 8:00 PM ( Sat & Sun )\n12*5 - 8:00 AM x 8:00 PM\n8*5 - 9:00 AM x 5:00 PM\n11*6 - 9:00 AM X 8:00 PM\n9*5 - 9:00 AM x 6:00 PM ( Alternate Sat & Sun )\n9*5 - 9:00 AM x 6:00 PM\n16*6 - 7:00 AM x 10:00 PM (Alternate Saturday)\n14*6 - 9 AM X 9 PM\n9*6 - 9:00 AM x 6:00 PM\n9*5\n12*6 - 8 AM X 8 PM\n16*6\n9*6 - 9:30 AM X 6:30 PM\n14*6 - 8 AM X 10 PM\n24*7\nDefault",
             "insert_after": "custom_assigned_to"
         },
         {
@@ -164,7 +164,7 @@ CUSTOM_FIELDS = {
             "insert_after": "priority",
             "default": "Severity 3"
         },
-        {
+        
             "fieldname": "custom_sr_classification_copy",
             "label": "SR Classification",
             "fieldtype": "Select",
@@ -329,7 +329,7 @@ CUSTOM_FIELDS = {
             "fieldname": "custom_classification_category", 
             "label": "Category", 
             "fieldtype": "Select",
-            "options": "Database\nMiddleware\nIncident",
+            "options": "Incident\nInvalid\nDatabase / Others-Database\nMiddleware / Files/Logs share\nMiddleware / Others-Middleware\nMiddleware / Refresh Activity\nMiddleware / Service Restart\nOpen Source DB / Backup Restore\nOpen Source DB / Other\nOpen Source DB / Query Execution\nOpen Source DB / Script deployment/execution\nOracle DB / DB Maintenance\nOracle DB / RMMAN restoration\nKnowledge Issue",
             "insert_after": "custom_sr_classification_copy",
             "depends_on": 'eval:doc.custom_entry_type == "Incident"',
             "mandatory_depends_on": 'eval:doc.custom_entry_type == "Incident"'
@@ -363,7 +363,7 @@ CUSTOM_FIELDS = {
             "label": "Workgroup Owner",
             "fieldtype": "Link",
             "options": "User",
-            "insert_after": "custom_parent_email"
+            "insert_after": "custom_last_password_change"
         }
     ]
 
