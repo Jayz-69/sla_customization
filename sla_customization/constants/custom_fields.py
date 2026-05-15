@@ -164,14 +164,13 @@ CUSTOM_FIELDS = {
             "insert_after": "priority",
             "default": "Severity 3"
         },
-        
+        {
             "fieldname": "custom_sr_classification_copy",
             "label": "SR Classification",
             "fieldtype": "Select",
             "options": "Administration\nDatabase / Power BI\nDatabase / Oracle Cloud - OS\nDatabase / Oracle Cloud - Database\nDatabase / Oracle Cloud - Network\nBackup\nPerformance Testing\nDisaster Recovery/Replication\nAudit/Hardening\nReporting\nSecurity\nEncryption\nUpgrade\nMigration\nNetwork Services",
             "insert_after": "ticket_type"
         },
-
         {
             "fieldname": "custom_reason_for_change",
             "label": "Reason For Change",
@@ -335,6 +334,7 @@ CUSTOM_FIELDS = {
             "mandatory_depends_on": 'eval:doc.custom_entry_type == "Incident"'
         },
     ],
+
 
 
     "Email Account": [
