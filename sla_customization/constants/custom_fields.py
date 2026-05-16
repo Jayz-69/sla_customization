@@ -266,11 +266,11 @@ CUSTOM_FIELDS = {
             "insert_after": "custom_is_incident_conversion"
         },
         {
-            "fieldname": "custom_workgroup",
+            "fieldname": "email_account",
             "label": "Workgroup",
             "fieldtype": "Link",
-            "options": "HD Team",
-            "insert_after": "email_account"
+            "options": "Email Account",
+            "insert_after": "customer"
         },
         {
             "fieldname": "custom_logged_time",
@@ -301,14 +301,6 @@ CUSTOM_FIELDS = {
             "insert_after": "custom_response_sla_breach",
             "depends_on": 'eval:doc.custom_response_sla_breach == "YES"',
             "mandatory_depends_on": 'eval:doc.custom_response_sla_breach == "YES"'
-        },
-
-        {
-            "fieldname": "custom_cancellation_remarks",
-            "label": "Cancellation Remarks",
-            "fieldtype": "Data",
-            "options": "HD Team",
-            "insert_after": "custom_closure_category"
         },
 
         {

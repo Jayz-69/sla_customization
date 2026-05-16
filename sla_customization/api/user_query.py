@@ -53,11 +53,6 @@ import datetime
 def active_user_query(doctype, txt, searchfield, start, page_len, filters):
 	limit = int(page_len or 20)
 	offset = int(start or 0)
-	frappe.log_error(str(filters))
-	workgroup = frappe.get_value("Email Account",filters["email_account"],"custom_workgroup")
-	user_list = frappe.get_all("HD Team Member", 
-                           filters={"parent": workgroup}, 
-                           pluck="user")
 
 	data = frappe.db.sql(f"""
 		SELECT 
@@ -67,13 +62,12 @@ def active_user_query(doctype, txt, searchfield, start, page_len, filters):
 			(SELECT COUNT(*) FROM `tabSessions` WHERE user = u.name) as has_session
 		FROM `tabUser` u
 		WHERE u.enabled = 1
-			AND u.name IN %(user_list)s
 			AND u.user_type = 'System User'
 			AND u.name NOT IN ('Guest', 'Administrator')
 			AND (u.name LIKE %(txt)s OR u.full_name LIKE %(txt)s)
 		ORDER BY has_session DESC, u.last_login DESC
 		LIMIT {limit} OFFSET {offset}
-	""", {"user_list":user_list,"txt": f"%{txt}%"}, as_dict=True)
+	""", {"txt": f"%{txt}%"}, as_dict=True)
 
 	result = []
 	for d in data:
