@@ -152,6 +152,7 @@ doc_events = {
 
 override_doctype_class = {
     "Email Account": "sla_customization.overrides.email_account.CustomEmailAccount",
+    "HD Service Level Agreement": "sla_customization.overrides.hd_service_level_agreement.CustomHDServiceLevelAgreement",
 }
 
 # Scheduled Tasks
