@@ -272,19 +272,49 @@ def handle_resolution(ticket, sla_update):
 # WORKGROUP EMAIL FETCH
 # =========================================================
 
-def get_workgroup_emails(ticket):
+def get_response_sla_users(ticket, milestone):
     """
-    Extracts the email address from the 'email_id' field of the 
-    linked Email Account record selected in the ticket.
+    Fetch response SLA users from HD Team child tables.
     """
-    email_account_name = getattr(ticket, "email_account", None)
-    if not email_account_name:
+
+    if not ticket.email_account:
         return []
 
-    # Fetches the target email from the 'email_id' field of the Email Account Doctype
-    email_id = frappe.get_value("Email Account", email_account_name, "email_id")
-    
-    return [email_id] if email_id else []
+    try:
+        team_doc = frappe.get_doc("HD Team", ticket.email_account)
+
+        field_map = {
+            50: "custom_response_sla_50",
+            75: "custom_response_sla_70",
+            100: "custom_response_sla_100"
+        }
+
+        child_table = field_map.get(milestone)
+
+        if not child_table:
+            return []
+
+        recipients = []
+
+        for row in team_doc.get(child_table):
+
+            email = frappe.db.get_value(
+                "User",
+                row.user,
+                "email"
+            )
+
+            if email:
+                recipients.append(email)
+
+        return list(set(recipients))
+
+    except Exception:
+        frappe.log_error(
+            frappe.get_traceback(),
+            "Response SLA User Fetch Error"
+        )
+        return []
 
 
 # =========================================================
@@ -314,7 +344,10 @@ def send_email(ticket, sla_type, milestone):
     Sends SLA notification email to the target workgroup email address.
     """
     if sla_type == "first response":
-        recipients = get_workgroup_emails(ticket)
+        recipients =  get_response_sla_users(
+            ticket,
+            milestone
+        )
     else:
         recipients = get_ticket_assignee_email(ticket)
 
