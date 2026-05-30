@@ -1,0 +1,861 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-05-30 13:30:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "is_submittable": 1,
+ "field_order": [
+  "details_section",
+  "naming_series",
+  "requestor",
+  "department",
+  "owner_workgroup",
+  "workgroup_owner_details",
+  "column_break_details",
+  "logged_time",
+  "status",
+  "category",
+  "change_type",
+  "trigger_for_change",
+  "configuration_items",
+  "attachment",
+  "propose_for_standard_change",
+  "workflow_section",
+  "workflow_state",
+  "approval_log",
+  "general_tab",
+  "impact_section",
+  "urgency",
+  "impact",
+  "risk",
+  "column_break_impact",
+  "priority",
+  "business_risk",
+  "operational_risk",
+  "assignments_section",
+  "assigned_workgroup",
+  "timelines_section",
+  "deadline",
+  "is_downtime_required",
+  "column_break_timelines",
+  "planned_start_time",
+  "planned_end_time",
+  "downtime_start",
+  "downtime_end",
+  "approval_section",
+  "customer",
+  "customer_approval_required",
+  "escalate",
+  "column_break_approval",
+  "cost",
+  "customer_acceptance_test_required",
+  "description_section",
+  "description",
+  "information_section",
+  "information",
+  "communication_plan_section",
+  "communication_plan_required",
+  "unsuccessful_changes_section",
+  "solution_section",
+  "closure_code",
+  "custom_attributes_section",
+  "current_policy",
+  "list_of_devices",
+  "column_break_custom_attributes",
+  "check_connectivity_with_user",
+  "risks_tab",
+  "risks_section",
+  "risk_of_change_failure",
+  "business_impact_as_per_user",
+  "business_impact_of_change_failure",
+  "back_out_plan",
+  "column_break_risks",
+  "back_out_plan_tested",
+  "system_impact",
+  "risks_remarks",
+  "impact_of_not_implementing_change",
+  "risks_attachment",
+  "logs_tab",
+  "analyst_log",
+  "configuration_team_log",
+  "change_manager_log",
+  "change_advisory_board_member_log",
+  "test_tab",
+  "test_section",
+  "test_stage",
+  "test_planned_date",
+  "test_plan",
+  "test_workgroup",
+  "test_status",
+  "column_break_test",
+  "test_plan_name",
+  "actual_test_date",
+  "test_results",
+  "test_owner",
+  "test_attachment",
+  "defects_section",
+  "defects",
+  "test_details_section",
+  "test_details",
+  "relationship_tab",
+  "relationships",
+  "requirements_tab",
+  "resource_requirements_section",
+  "resource_requirements",
+  "technical_requirements_section",
+  "technical_requirements",
+  "financial_requirements_section",
+  "financial_requirements",
+  "implementation_tab",
+  "implementation_assignments_section",
+  "assigned_to",
+  "implementation_timelines_section",
+  "actual_start_time",
+  "actual_end_time",
+  "planned_pir_date",
+  "implementation_communication_plan_section",
+  "change_implemented_or_rolled_back",
+  "is_change_successful",
+  "ci_update_required",
+  "implementation_solution_section",
+  "solution",
+  "additional_information_tab",
+  "change_scope",
+  "change_out_of_scope",
+  "business_benefits",
+  "financial_benefits"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "default": "CR.",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "CR.",
+   "read_only": 1
+  },
+  {
+   "fieldname": "requestor",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Requestor",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Department",
+   "options": "Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "owner_workgroup",
+   "fieldtype": "Link",
+   "label": "Owner Workgroup",
+   "options": "HD Team",
+   "reqd": 1
+  },
+  {
+   "fieldname": "workgroup_owner_details",
+   "fieldtype": "Small Text",
+   "label": "Workgroup Owner Details",
+   "description": "Auto-filled from Owner Workgroup team members.",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "logged_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Log Time",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nRequested\nInitial Authorization\nApproved\nImplementation\nCompleted\nClosed",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Category",
+   "options": "Small\nMedium\nLarge",
+   "reqd": 1
+  },
+  {
+   "fieldname": "change_type",
+   "fieldtype": "Select",
+   "label": "Change Type",
+   "options": "Normal\nStandard\nEmergency\nExpedited",
+   "reqd": 1
+  },
+  {
+   "fieldname": "trigger_for_change",
+   "fieldtype": "Small Text",
+   "label": "Trigger for Change"
+  },
+  {
+   "fieldname": "configuration_items",
+   "fieldtype": "Table",
+   "label": "Configuration Items",
+   "options": "Change Record Configuration Item"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "default": "0",
+   "fieldname": "propose_for_standard_change",
+   "fieldtype": "Check",
+   "label": "Propose For Standard Change"
+  },
+  {
+   "fieldname": "workflow_section",
+   "fieldtype": "Section Break",
+   "label": "Workflow"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Draft",
+   "fieldname": "workflow_state",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Workflow State",
+   "options": "Workflow State",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "approval_log",
+   "fieldtype": "Table",
+   "label": "Approval Log",
+   "options": "Change Record Approval Log",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "general_tab",
+   "fieldtype": "Tab Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "impact_section",
+   "fieldtype": "Section Break",
+   "label": "Impact"
+  },
+  {
+   "fieldname": "urgency",
+   "fieldtype": "Select",
+   "label": "Urgency",
+   "options": "Low\nMedium\nHigh\nCritical",
+   "reqd": 1
+  },
+  {
+   "fieldname": "impact",
+   "fieldtype": "Select",
+   "label": "Impact",
+   "options": "Severity 1\nSeverity 2\nSeverity 3\nSeverity 4",
+   "reqd": 1
+  },
+  {
+   "fieldname": "risk",
+   "fieldtype": "Select",
+   "label": "Risk",
+   "options": "Low Risk\nMedium Risk\nHigh Risk",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_impact",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "P1\nP2\nP3\nP4",
+   "reqd": 1
+  },
+  {
+   "fieldname": "business_risk",
+   "fieldtype": "Data",
+   "label": "Business Risk"
+  },
+  {
+   "fieldname": "operational_risk",
+   "fieldtype": "Data",
+   "label": "Operational Risk"
+  },
+  {
+   "fieldname": "assignments_section",
+   "fieldtype": "Section Break",
+   "label": "Assignments"
+  },
+  {
+   "fieldname": "assigned_workgroup",
+   "fieldtype": "Link",
+   "label": "Assigned Workgroup",
+   "options": "HD Team",
+   "reqd": 1
+  },
+  {
+   "fieldname": "timelines_section",
+   "fieldtype": "Section Break",
+   "label": "Timelines"
+  },
+  {
+   "fieldname": "deadline",
+   "fieldtype": "Datetime",
+   "label": "Deadline"
+  },
+  {
+   "default": "No",
+   "fieldname": "is_downtime_required",
+   "fieldtype": "Select",
+   "label": "Is Downtime Required?",
+   "options": "Yes\nNo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_timelines",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "planned_start_time",
+   "fieldtype": "Datetime",
+   "label": "Planned Start Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "planned_end_time",
+   "fieldtype": "Datetime",
+   "label": "Planned End Time",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_downtime_required=='Yes'",
+   "fieldname": "downtime_start",
+   "fieldtype": "Datetime",
+   "label": "Downtime Start"
+  },
+  {
+   "depends_on": "eval:doc.is_downtime_required=='Yes'",
+   "fieldname": "downtime_end",
+   "fieldtype": "Datetime",
+   "label": "Downtime End"
+  },
+  {
+   "fieldname": "approval_section",
+   "fieldtype": "Section Break",
+   "label": "Approval"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "customer",
+   "fieldtype": "Select",
+   "label": "Customer",
+   "options": "ALL"
+  },
+  {
+   "default": "0",
+   "fieldname": "customer_approval_required",
+   "fieldtype": "Check",
+   "label": "Customer Approval Required"
+  },
+  {
+   "default": "No Escalation Levels",
+   "fieldname": "escalate",
+   "fieldtype": "Select",
+   "label": "Escalate",
+   "options": "No Escalation Levels\nLevel 1\nLevel 2\nLevel 3"
+  },
+  {
+   "fieldname": "column_break_approval",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Cost"
+  },
+  {
+   "default": "0",
+   "fieldname": "customer_acceptance_test_required",
+   "fieldtype": "Check",
+   "label": "Customer Acceptance Test Required"
+  },
+  {
+   "fieldname": "description_section",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "information_section",
+   "fieldtype": "Section Break",
+   "label": "Information"
+  },
+  {
+   "fieldname": "information",
+   "fieldtype": "Text Editor",
+   "label": "Information"
+  },
+  {
+   "fieldname": "communication_plan_section",
+   "fieldtype": "Section Break",
+   "label": "Communication Plan"
+  },
+  {
+   "default": "No",
+   "fieldname": "communication_plan_required",
+   "fieldtype": "Select",
+   "label": "Communication Plan Required?",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "unsuccessful_changes_section",
+   "fieldtype": "Section Break",
+   "label": "Unsuccessful Changes"
+  },
+  {
+   "fieldname": "solution_section",
+   "fieldtype": "Section Break",
+   "label": "Solution"
+  },
+  {
+   "fieldname": "closure_code",
+   "fieldtype": "Data",
+   "label": "Closure Code"
+  },
+  {
+   "fieldname": "custom_attributes_section",
+   "fieldtype": "Section Break",
+   "label": "Custom Attributes"
+  },
+  {
+   "fieldname": "current_policy",
+   "fieldtype": "Data",
+   "label": "Current Policy"
+  },
+  {
+   "fieldname": "list_of_devices",
+   "fieldtype": "Data",
+   "label": "List Of Devices"
+  },
+  {
+   "fieldname": "column_break_custom_attributes",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "check_connectivity_with_user",
+   "fieldtype": "Data",
+   "label": "Check with the user for connectivity."
+  },
+  {
+   "fieldname": "risks_tab",
+   "fieldtype": "Tab Break",
+   "label": "Risks"
+  },
+  {
+   "fieldname": "risks_section",
+   "fieldtype": "Section Break",
+   "label": "Risks"
+  },
+  {
+   "fieldname": "risk_of_change_failure",
+   "fieldtype": "Text Editor",
+   "label": "Risk of Change Failure",
+   "reqd": 1
+  },
+  {
+   "fieldname": "business_impact_as_per_user",
+   "fieldtype": "Text Editor",
+   "label": "Business Impact (As per User)"
+  },
+  {
+   "fieldname": "business_impact_of_change_failure",
+   "fieldtype": "Text Editor",
+   "label": "Business Impact Of Change Failure",
+   "reqd": 1
+  },
+  {
+   "fieldname": "back_out_plan",
+   "fieldtype": "Text Editor",
+   "label": "Back-Out Plan",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_risks",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "back_out_plan_tested",
+   "fieldtype": "Select",
+   "label": "Back-Out Plan Tested",
+   "options": "Yes\nNo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "system_impact",
+   "fieldtype": "Select",
+   "label": "System Impact",
+   "options": "Network\nApplication\nInfrastructure\nDatabase\nSecurity\nOther"
+  },
+  {
+   "fieldname": "risks_remarks",
+   "fieldtype": "Text Editor",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "impact_of_not_implementing_change",
+   "fieldtype": "Text Editor",
+   "label": "Impact Of Not Implementing Change"
+  },
+  {
+   "fieldname": "risks_attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fieldname": "logs_tab",
+   "fieldtype": "Tab Break",
+   "label": "Logs"
+  },
+  {
+   "fieldname": "analyst_log",
+   "fieldtype": "Text Editor",
+   "label": "Analyst Log"
+  },
+  {
+   "fieldname": "configuration_team_log",
+   "fieldtype": "Text Editor",
+   "label": "Configuration Team Log"
+  },
+  {
+   "fieldname": "change_manager_log",
+   "fieldtype": "Text Editor",
+   "label": "Change Manager Log"
+  },
+  {
+   "fieldname": "change_advisory_board_member_log",
+   "fieldtype": "Text Editor",
+   "label": "Change Advisory Board Member Log"
+  },
+  {
+   "fieldname": "test_tab",
+   "fieldtype": "Tab Break",
+   "label": "Test"
+  },
+  {
+   "fieldname": "test_section",
+   "fieldtype": "Section Break",
+   "label": "Test"
+  },
+  {
+   "default": "Not Applicable",
+   "fieldname": "test_stage",
+   "fieldtype": "Select",
+   "label": "Test Stage",
+   "options": "Not Applicable\nPlanned\nIn Progress\nCompleted\nFailed"
+  },
+  {
+   "fieldname": "test_planned_date",
+   "fieldtype": "Date",
+   "label": "Test Planned Date"
+  },
+  {
+   "fieldname": "test_plan",
+   "fieldtype": "Text Editor",
+   "label": "Test Plan"
+  },
+  {
+   "fieldname": "test_workgroup",
+   "fieldtype": "Link",
+   "label": "Workgroup",
+   "options": "HD Team"
+  },
+  {
+   "fieldname": "test_status",
+   "fieldtype": "Select",
+   "label": "Test Status",
+   "options": "\nPass\nFail\nIn Progress\nNot Started"
+  },
+  {
+   "fieldname": "column_break_test",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "test_plan_name",
+   "fieldtype": "Data",
+   "label": "Test Plan Name"
+  },
+  {
+   "fieldname": "actual_test_date",
+   "fieldtype": "Date",
+   "label": "Actual Test Date"
+  },
+  {
+   "fieldname": "test_results",
+   "fieldtype": "Text Editor",
+   "label": "Test Results"
+  },
+  {
+   "fieldname": "test_owner",
+   "fieldtype": "Link",
+   "label": "by/Owner",
+   "options": "User"
+  },
+  {
+   "fieldname": "test_attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fieldname": "defects_section",
+   "fieldtype": "Section Break",
+   "label": "Defects"
+  },
+  {
+   "fieldname": "defects",
+   "fieldtype": "Table",
+   "label": "Defects",
+   "options": "Change Record Defect"
+  },
+  {
+   "fieldname": "test_details_section",
+   "fieldtype": "Section Break",
+   "label": "Test Details"
+  },
+  {
+   "fieldname": "test_details",
+   "fieldtype": "Table",
+   "label": "Test Details",
+   "options": "Change Record Test Detail"
+  },
+  {
+   "fieldname": "relationship_tab",
+   "fieldtype": "Tab Break",
+   "label": "Relationship"
+  },
+  {
+   "fieldname": "relationships",
+   "fieldtype": "Table",
+   "label": "Relationships",
+   "options": "Change Record Relationship"
+  },
+  {
+   "fieldname": "requirements_tab",
+   "fieldtype": "Tab Break",
+   "label": "Requirements"
+  },
+  {
+   "fieldname": "resource_requirements_section",
+   "fieldtype": "Section Break",
+   "label": "Resource Requirements"
+  },
+  {
+   "fieldname": "resource_requirements",
+   "fieldtype": "Table",
+   "label": "Resource Requirements",
+   "options": "Change Record Resource Requirement"
+  },
+  {
+   "fieldname": "technical_requirements_section",
+   "fieldtype": "Section Break",
+   "label": "Technical Requirements"
+  },
+  {
+   "fieldname": "technical_requirements",
+   "fieldtype": "Table",
+   "label": "Technical Requirements",
+   "options": "Change Record Technical Requirement"
+  },
+  {
+   "fieldname": "financial_requirements_section",
+   "fieldtype": "Section Break",
+   "label": "Financial Requirements"
+  },
+  {
+   "fieldname": "financial_requirements",
+   "fieldtype": "Table",
+   "label": "Financial Requirements",
+   "options": "Change Record Financial Requirement"
+  },
+  {
+   "fieldname": "implementation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Implementation"
+  },
+  {
+   "fieldname": "implementation_assignments_section",
+   "fieldtype": "Section Break",
+   "label": "Assignments"
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Assigned To",
+   "options": "User"
+  },
+  {
+   "fieldname": "implementation_timelines_section",
+   "fieldtype": "Section Break",
+   "label": "Timelines"
+  },
+  {
+   "fieldname": "actual_start_time",
+   "fieldtype": "Datetime",
+   "label": "Actual Start Time"
+  },
+  {
+   "fieldname": "actual_end_time",
+   "fieldtype": "Datetime",
+   "label": "Actual End Time"
+  },
+  {
+   "fieldname": "planned_pir_date",
+   "fieldtype": "Date",
+   "label": "Planned PIR Date"
+  },
+  {
+   "fieldname": "implementation_communication_plan_section",
+   "fieldtype": "Section Break",
+   "label": "Communication Plan"
+  },
+  {
+   "fieldname": "change_implemented_or_rolled_back",
+   "fieldtype": "Select",
+   "label": "Is the Change Implemented or Rolled Back?",
+   "options": "\nImplemented\nRolled Back"
+  },
+  {
+   "fieldname": "is_change_successful",
+   "fieldtype": "Select",
+   "label": "Is the Change Successful?",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "ci_update_required",
+   "fieldtype": "Select",
+   "label": "CI Update Required?",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "implementation_solution_section",
+   "fieldtype": "Section Break",
+   "label": "Solution"
+  },
+  {
+   "fieldname": "solution",
+   "fieldtype": "Text Editor",
+   "label": "Solution"
+  },
+  {
+   "fieldname": "additional_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Additional Information"
+  },
+  {
+   "fieldname": "change_scope",
+   "fieldtype": "Text Editor",
+   "label": "Change Scope"
+  },
+  {
+   "fieldname": "change_out_of_scope",
+   "fieldtype": "Text Editor",
+   "label": "Change Out of Scope"
+  },
+  {
+   "fieldname": "business_benefits",
+   "fieldtype": "Text Editor",
+   "label": "Business Benefits"
+  },
+  {
+   "fieldname": "financial_benefits",
+   "fieldtype": "Text Editor",
+   "label": "Financial Benefits"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-30 13:30:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sla Customization",
+ "name": "Change Record",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Agent Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Agent",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "requestor,department,status,category",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "requestor",
+ "track_changes": 1
+}

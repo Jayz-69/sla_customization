@@ -1,0 +1,19 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-30 14:10:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": ["test_step", "expected_result", "actual_result", "status"],
+ "fields": [
+  {"fieldname": "test_step", "fieldtype": "Data", "in_list_view": 1, "label": "Test Step", "reqd": 1},
+  {"fieldname": "expected_result", "fieldtype": "Small Text", "in_list_view": 1, "label": "Expected Result"},
+  {"fieldname": "actual_result", "fieldtype": "Small Text", "in_list_view": 1, "label": "Actual Result"},
+  {"fieldname": "status", "fieldtype": "Select", "in_list_view": 1, "label": "Status", "options": "Pass\nFail\nNot Run"}
+ ],
+ "istable": 1,
+ "module": "Sla Customization",
+ "name": "Change Record Test Detail",
+ "permissions": []
+}

@@ -1,0 +1,19 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-30 14:10:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": ["relationship_type", "related_record_type", "related_record", "description"],
+ "fields": [
+  {"fieldname": "relationship_type", "fieldtype": "Select", "in_list_view": 1, "label": "Relationship Type", "options": "Related To\nDepends On\nBlocks\nDuplicate Of", "reqd": 1},
+  {"fieldname": "related_record_type", "fieldtype": "Select", "in_list_view": 1, "label": "Record Type", "options": "Change Record\nHD Ticket\nIncident\nProblem"},
+  {"fieldname": "related_record", "fieldtype": "Dynamic Link", "in_list_view": 1, "label": "Related Record", "options": "related_record_type", "reqd": 1},
+  {"fieldname": "description", "fieldtype": "Small Text", "in_list_view": 1, "label": "Description"}
+ ],
+ "istable": 1,
+ "module": "Sla Customization",
+ "name": "Change Record Relationship",
+ "permissions": []
+}

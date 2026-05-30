@@ -1,0 +1,18 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-30 14:10:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": ["requirement", "workgroup", "details"],
+ "fields": [
+  {"fieldname": "requirement", "fieldtype": "Data", "in_list_view": 1, "label": "Requirement", "reqd": 1},
+  {"fieldname": "workgroup", "fieldtype": "Link", "in_list_view": 1, "label": "Workgroup", "options": "HD Team"},
+  {"fieldname": "details", "fieldtype": "Small Text", "in_list_view": 1, "label": "Details"}
+ ],
+ "istable": 1,
+ "module": "Sla Customization",
+ "name": "Change Record Resource Requirement",
+ "permissions": []
+}

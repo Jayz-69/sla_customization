@@ -43,10 +43,11 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"HD Ticket" : "public/js/todo.js"}
-doctype_js = { "HD Ticket": "public/js/hd_ticket_status.js"}
-doctype_list_js = { "HD Ticket": "public/js/hd_ticket_listt.js"}
-doctype_js = { "HD Ticket": "public/js/field_update.js"}
+doctype_js = {
+	"HD Ticket": "public/js/field_update.js",
+	"Change Record": "sla_customization/doctype/change_record/change_record.js",
+}
+doctype_list_js = {"HD Ticket": "public/js/hd_ticket_listt.js"}
 
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -143,12 +144,6 @@ doctype_js = { "HD Ticket": "public/js/field_update.js"}
 # 		"on_trash": "method"
 # 	}
 # }
-
-doc_events = {
-    "User": {
-        "before_save": "sla_customization.overrides.assign_after_user_disabled.block_disable_with_open_tickets"
-    }
-}
 
 override_doctype_class = {
     "Email Account": "sla_customization.overrides.email_account.CustomEmailAccount",
@@ -279,7 +274,11 @@ doc_events = {
             "sla_customization.api.status_update.update_ticket_status_logic"
         ],
         "after_save": "sla_customization.api.auto_cancel_sr.handle_incident_conversion_logs",
-    }
+    },
+    "Change Record": {
+        "on_update": "sla_customization.api.change_record_email.on_change_record_update",
+        "on_update_after_submit": "sla_customization.api.change_record_email.on_change_record_update",
+    },
 }
 
 
